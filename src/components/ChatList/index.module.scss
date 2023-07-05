@@ -1,0 +1,94 @@
+.chat-item {
+  padding: 10px 6px;
+  background-color: var(--white);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  box-shadow: var(--card-shadow);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-item:hover {
+  background-color: var(--hover-color);
+}
+
+.chat-item-selected {
+  border-color: var(--primary);
+}
+
+.chat-item-title {
+  font-size: 14px;
+  font-weight: bolder;
+  display: block;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-item-delete {
+  position: absolute;
+  top: 10px;
+  right: -20px;
+  transition: all ease 0.3s;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chat-item:hover > .chat-item-delete {
+  opacity: 0.5;
+  right: 10px;
+}
+
+.chat-item:hover > .chat-item-delete:hover {
+  opacity: 1;
+}
+
+.chat-item-info {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(166, 166, 166);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.chat-item-count,
+.chat-item-date {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-list-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chat-list-input {
+  flex: 1;
+  margin-bottom: 0;
+  display: flex;
+  height: 28px;
+  border: 0;
+  border-radius: 4px;
+}
+
+.chat-list-header-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  width: 28px;
+  height: 26px;
+  background-color: var(--white);
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 4px;
+}
