@@ -8,7 +8,7 @@ interface IChatListHeader {
 export const ChatListHeader: FC<IChatListHeader> = memo(({ onAddChat }) => {
   return (
     <div className={styles["chat-list-header"]}>
-      <input className={styles["chat-list-input"]} />
+      <input className={styles["chat-list-input"]} placeholder="搜索" />
       <div className={styles["chat-list-header-add"]} onClick={onAddChat}>
         +
       </div>

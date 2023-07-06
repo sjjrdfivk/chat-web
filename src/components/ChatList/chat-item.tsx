@@ -19,17 +19,20 @@ export const ChatItem: FC<IChatItem> = memo((props) => {
         >
           <div className={styles["chat-item-title"]}>{props.title}</div>
           <div className={styles["chat-item-info"]}>
-            <div className={styles["chat-item-count"]}>
-              {/* {Locale.ChatItem.ChatItemCount(props.count)}
-              66 */}
-            </div>
+            <div className={styles["chat-item-count"]}></div>
             <div className={styles["chat-item-date"]}>
               {moment(props.time).format("YYYY-MM-DD hh:mm:ss")}
             </div>
           </div>
-          {/* <div className={styles["chat-item-delete"]} onClick={props.onDelete}>
+          <div
+            className={styles["chat-item-delete"]}
+            onClick={(event) => {
+              event.stopPropagation();
+              props.onDelete();
+            }}
+          >
             X
-          </div> */}
+          </div>
         </div>
       )}
     </Draggable>

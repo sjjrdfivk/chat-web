@@ -1,6 +1,6 @@
 export interface IChatItem {
   onClick?: () => void;
-  onDelete?: () => void;
+  onDelete: () => void;
   title: string;
   count?: number;
   time: Date;

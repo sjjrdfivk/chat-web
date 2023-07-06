@@ -1,39 +1,23 @@
-import {
-  memo,
-  FC,
-  useRef,
-  useState,
-  useLayoutEffect,
-  useEffect,
-  useMemo,
-} from "react";
+import { memo, FC, useRef, useState, useLayoutEffect, useEffect } from "react";
 import styles from "./index.module.scss";
 import { IconButton } from "../IconButton/icon-button";
-import { requestChatStream } from "../../services/api";
-import { IMessagesProps } from "./chat.props";
 import "katex/dist/katex.min.css";
 import { Markdown } from "../index";
 import { useChatStore } from "../../store";
 
 export const Chat: FC = memo((props) => {
   const [autoScroll, setAutoScroll] = useState(true);
-  const [hitBottom, setHitBottom] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState("");
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const [sessions, setSession] = useChatStore((state) => [
+  const [sessions, currentSessionIndex, setSession] = useChatStore((state) => [
     state.currentSession(),
+    state.currentSessionIndex,
     state.setSession,
   ]);
-
-  const onChatBodyScroll = (e: HTMLElement) => {
-    setAutoScroll(false);
-    const isTouchBottom = e.scrollTop + e.clientHeight >= e.scrollHeight - 20;
-    setHitBottom(isTouchBottom);
-  };
 
   const onInput = (text: string) => {
     setUserInput(text);
@@ -55,79 +39,69 @@ export const Chat: FC = memo((props) => {
     }
   };
 
-  const scrollToBottom = () => {
+  const scrollToBottom = (isScroll = autoScroll) => {
     const container = scrollRef.current;
-    if (container?.scrollHeight && autoScroll) {
+    if (container?.scrollHeight && isScroll) {
       container.scrollTop = container.scrollHeight;
-      // setTimeout(() => (container.scrollTop = container.scrollHeight), 1);
     }
   };
 
   useLayoutEffect(() => {
-    // console.log("123");
     scrollToBottom();
   });
 
-  // const messages = sessions.messages;
-  const messages = sessions.messages;
+  useEffect(() => {
+    scrollToBottom(true);
+    // eslint-disable-next-line
+  }, [currentSessionIndex]);
 
-  // useEffect(() => {
-  //   console.log("123");
-  //   scrollToBottom();
-  // }, [messages]);
+  const messages = sessions?.messages;
 
   return (
-    <div className={styles.chat} key={`session.id`}>
+    <div className={styles.chat}>
       <div className={styles["window-header"]}>
         <div className={styles["window-header-title"]}>
           <div
             className={`${styles["window-header-main-title"]} ${styles["chat-body-title"]}`}
-          ></div>
+          >
+            {messages && !!messages.length ? messages[0]?.content : "新的聊天"}
+          </div>
         </div>
       </div>
 
-      <div
-        className={styles["chat-body"]}
-        ref={scrollRef}
-        onScroll={(e) => onChatBodyScroll(e.currentTarget)}
-        onWheel={(e) => setAutoScroll(hitBottom && e.deltaY > 0)}
-        onTouchStart={() => {
-          inputRef.current?.blur();
-          setAutoScroll(false);
-        }}
-      >
-        {messages.map((message, i) => {
-          const isUser = message?.role === "user";
-
-          return (
-            <div
-              key={i}
-              className={
-                isUser ? styles["chat-message-user"] : styles["chat-message"]
-              }
-            >
-              <div className={styles["chat-message-container"]}>
-                <div className={styles["chat-message-item"]}>
-                  <div
-                    className={
-                      isLoading && !isUser && messages.length - 1 === i
-                        ? "streaming markdown-body"
-                        : isUser
-                        ? ""
-                        : "markdown-body"
-                    }
-                  >
-                    <span></span>
-                    <Markdown
-                      content={message.content}
-                      isUser={isUser}
-                    ></Markdown>
+      <div className={styles["chat-body"]} ref={scrollRef}>
+        {messages &&
+          messages.map((message, i) => {
+            const isUser = message?.role === "user";
+            return (
+              <div
+                key={i}
+                className={
+                  isUser ? styles["chat-message-user"] : styles["chat-message"]
+                }
+              >
+                <div className={styles["chat-message-container"]}>
+                  <div className={styles["chat-message-item"]}>
+                    <div
+                      className={
+                        isLoading && !isUser && messages.length - 1 === i
+                          ? "streaming markdown-body"
+                          : isUser
+                          ? ""
+                          : "markdown-body"
+                      }
+                    >
+                      <span></span>
+                      <Markdown
+                        content={message.content}
+                        isUser={isUser}
+                      ></Markdown>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
 
       <div className={styles["chat-input-panel"]}>
