@@ -48,6 +48,7 @@ export const useChatStore = create<ChatStore>()(
       },
       setNewSession() {
         set((state) => ({
+          currentSessionIndex: 0,
           sessions: [createEmptySession()].concat(state.sessions),
         }));
       },

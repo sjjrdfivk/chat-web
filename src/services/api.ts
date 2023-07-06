@@ -13,7 +13,7 @@ export const requestChatStream = async (
   }
 ) => {
   try {
-    const res = await fetch(url + "chat", {
+    const res = await fetch(url + "bitoChat", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
