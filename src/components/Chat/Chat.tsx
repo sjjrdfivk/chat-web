@@ -127,7 +127,7 @@ export const Chat: FC = memo((props) => {
             text={"发送"}
             className={styles["chat-input-send"]}
             noDark
-            // onClick={onUserSubmit}
+            onClick={() => onUserSubmit(userInput)}
           />
         </div>
       </div>

@@ -22,13 +22,12 @@ export const ChatList: FC = memo((props) => {
 
   const onDragEnd = () => {};
 
-  const onAddChat = () => {
-    createNewSession();
-  };
-
   return (
     <>
-      <ChatListHeader onAddChat={onAddChat} />
+      <ChatListHeader
+        onAddChat={() => createNewSession(0)}
+        onAddTextChat={() => createNewSession(1)}
+      />
       <div className={styles["sidebar-body"]}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="chat-list">

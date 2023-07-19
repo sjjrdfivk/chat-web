@@ -93,7 +93,24 @@
   margin-right: 4px;
 }
 
+.chat-list-header-text-add {
+  @extend .chat-list-header-add;
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+}
+
 .sidebar-body {
   flex: 1;
   overflow: auto;
+}
+
+.chat-list-file-text-upload {
+  width: 28px;
+  height: 26px;
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
 }

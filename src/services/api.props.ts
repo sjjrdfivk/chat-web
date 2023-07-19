@@ -1,9 +1,9 @@
 export interface BitoRequestChatStreamData {
   context: BitoContext[];
-  prompt: string;
+  prompt?: string;
 }
 
 export interface BitoContext {
-  question: string;
-  answer: string;
+  role: string;
+  content: string;
 }
